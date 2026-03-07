@@ -150,6 +150,42 @@ app.get('/api/articles/:id/export', async (req, res) => {
   }
 });
 
+// 网站AI可见度检测
+app.post('/api/detection', async (req, res) => {
+  try {
+    const { url, company_name, industry } = req.body;
+    if (!url) return res.status(400).json({ success: false, error: 'URL不能为空' });
+    
+    // 模拟检测延迟
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    // 生成模拟检测结果
+    const score = Math.floor(Math.random() * 30) + 60; // 60-90分
+    const detection = {
+      id: 'detection_' + Date.now(),
+      url: url,
+      company_name: company_name || '未命名企业',
+      industry: industry || '未知行业',
+      overall_score: score,
+      visibility_score: Math.floor(Math.random() * 20) + 70,
+      content_score: Math.floor(Math.random() * 20) + 70,
+      authority_score: Math.floor(Math.random() * 20) + 70,
+      technical_score: Math.floor(Math.random() * 20) + 70,
+      recommendations: [
+        { title: '优化网站内容质量', description: '建议增加原创内容和关键词密度，提升AI对网站的理解' },
+        { title: '提升页面加载速度', description: '图片压缩和CDN加速可提升用户体验和AI抓取效率' },
+        { title: '完善结构化数据', description: '添加Schema标记有助于AI理解网站内容结构' }
+      ],
+      created_at: new Date().toISOString()
+    };
+    
+    res.json({ success: true, data: detection });
+  } catch (error) {
+    console.error('Detection error:', error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 // 启动服务器
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
