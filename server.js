@@ -166,11 +166,48 @@ app.post('/api/detection', async (req, res) => {
       url: url,
       company_name: company_name || '未命名企业',
       industry: industry || '未知行业',
-      overall_score: score,
-      visibility_score: Math.floor(Math.random() * 20) + 70,
-      content_score: Math.floor(Math.random() * 20) + 70,
-      authority_score: Math.floor(Math.random() * 20) + 70,
-      technical_score: Math.floor(Math.random() * 20) + 70,
+      // 兼容前端的 scores 格式
+      scores: {
+        total: score,
+        dimensions: {
+          visibility: { score: Math.floor(Math.random() * 20) + 70, label: 'AI可见度' },
+          content: { score: Math.floor(Math.random() * 20) + 70, label: '内容质量' },
+          authority: { score: Math.floor(Math.random() * 20) + 70, label: '权威性' },
+          technical: { score: Math.floor(Math.random() * 20) + 70, label: '技术优化' },
+          ux: { score: Math.floor(Math.random() * 20) + 70, label: '用户体验' }
+        }
+      },
+      // 详细数据
+      details: {
+        content: {
+          score: Math.floor(Math.random() * 20) + 70,
+          structure: {
+            h1: Math.floor(Math.random() * 3) + 1,
+            h2: Math.floor(Math.random() * 10) + 5,
+            h3: Math.floor(Math.random() * 20) + 10,
+            paragraphs: Math.floor(Math.random() * 50) + 20,
+            totalTextLength: Math.floor(Math.random() * 5000) + 2000,
+            avgParagraphLength: Math.floor(Math.random() * 200) + 50
+          }
+        },
+        schema: {
+          score: Math.floor(Math.random() * 30) + 50,
+          detected: [
+            { type: 'Organization' },
+            { type: 'WebSite' }
+          ],
+          analysis: [
+            { type: 'Organization', present: true },
+            { type: 'WebSite', present: true },
+            { type: 'Article', present: false }
+          ]
+        },
+        performance: {
+          loadTime: Math.floor(Math.random() * 2000) + 800,
+          ttfb: Math.floor(Math.random() * 300) + 50,
+          pageSize: Math.floor(Math.random() * 2000) + 500
+        }
+      },
       recommendations: [
         { title: '优化网站内容质量', description: '建议增加原创内容和关键词密度，提升AI对网站的理解' },
         { title: '提升页面加载速度', description: '图片压缩和CDN加速可提升用户体验和AI抓取效率' },
