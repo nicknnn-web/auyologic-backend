@@ -1,5 +1,6 @@
 /**
  * AI Provider Configurations
+ * 只保留可用的模型（Deepseek）
  */
 
 const AI_PROVIDERS = {
@@ -8,31 +9,20 @@ const AI_PROVIDERS = {
     baseURL: 'https://api.deepseek.com/v1/chat/completions',
     apiKey: process.env.DEEPSEEK_API_KEY || '',
     models: [
-      { id: 'deepseek-chat', name: 'Deepseek Chat', maxTokens: 4000 },
-      { id: 'deepseek-reasoner', name: 'Deepseek Reasoner', maxTokens: 4000 }
+      { id: 'deepseek-chat', name: 'Deepseek Chat', maxTokens: 4000 }
     ],
     defaultModel: 'deepseek-chat'
-  },
-  
-  nvidia: {
-    name: 'NVIDIA',
-    baseURL: 'https://integrate.api.nvidia.com/v1/chat/completions',
-    apiKey: process.env.NVIDIA_API_KEY || '',
-    models: [
-      { id: 'deepseek-ai/deepseek-v3.2', name: 'DeepSeek v3.2', maxTokens: 4000 }
-    ],
-    defaultModel: 'deepseek-ai/deepseek-v3.2'
-  },
-  
-  kimi: {
-    name: 'Kimi (Moonshot)',
-    baseURL: 'https://api.moonshot.cn/v1/chat/completions',
-    apiKey: process.env.KIMI_API_KEY || '',
-    models: [
-      { id: 'moonshot-v1-8k', name: 'Kimi v1 8K', maxTokens: 8000 }
-    ],
-    defaultModel: 'moonshot-v1-8k'
   }
+  // NVIDIA API Key 暂时无效，已注释
+  // nvidia: {
+  //   name: 'NVIDIA',
+  //   baseURL: 'https://integrate.api.nvidia.com/v1/chat/completions',
+  //   apiKey: process.env.NVIDIA_API_KEY || '',
+  //   models: [
+  //     { id: 'deepseek-ai/deepseek-v3.2', name: 'DeepSeek v3.2', maxTokens: 4000 }
+  //   ],
+  //   defaultModel: 'deepseek-ai/deepseek-v3.2'
+  // }
 };
 
 const getProvider = (providerId) => AI_PROVIDERS[providerId] || AI_PROVIDERS.deepseek;
